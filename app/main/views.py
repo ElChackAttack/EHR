@@ -31,3 +31,12 @@ def index():
         #flights = Flight.query.filter(arrival_time <= form.return_date.data, departure_time >= form.departure_date.data).filter_by(departure = form.departure_airport.data, arrival = form.arrival_airport.data)
         pass
     return render_template('index.html', explore_form = form, login_form = loginform)
+
+@main.route('/appointmentViewer')
+def show_cal():
+    # token = user.generate_confirmation_token()
+    return render_template('appointmentViewer.html')
+
+
+
+

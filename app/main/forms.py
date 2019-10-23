@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField #,DateField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField ,DateField
 from wtforms.validators import Required, Email, Length, Regexp, EqualTo, NumberRange
 from wtforms import ValidationError
 from wtforms.fields.html5 import DateField
@@ -25,3 +25,16 @@ class ExploreForm(FlaskForm):
         print(self.departure_airport.data)
         if field.data == self.departure_airport.data:
             raise ValidationError('Airports must be different.')
+
+class AppointmentForm(FlaskForm):
+    """Render HTML input for Appointment model & validate submissions.
+    This matches the models.Appointment class very closely. Where
+    models.Appointment represents the domain and its persistence, this class
+    represents how to display a form in HTML & accept/reject the results.
+    """
+    title = StringField('Title', [Length(max=255)])
+    start = DateField('Start', [Required()])
+    end = DateField('End')
+    allday = BooleanField('All Day')
+    location = StringField('Location', [Length(max=255)])
+    description = StringField('Description')

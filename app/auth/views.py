@@ -118,7 +118,6 @@ def resend_confirmation():
     flash('A new confirmation email has been sent to you by email.')
     return redirect(url_for('main.index'))
 
-
 #The current_user variables used in the conditional is
 #defined by Flask-Login and is automatically available
 #to view functions and templates

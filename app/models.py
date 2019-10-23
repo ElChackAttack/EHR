@@ -210,3 +210,33 @@ class Ticket(db.Model):
     airline_name = db.Column(db.String(64), db.ForeignKey('airline.name'), nullable = False)
     flight_num = db.Column(db.String(64), db.ForeignKey('flight.flight_num'), nullable = False)
     booking_agent_ID = db.Column(db.String(64), db.ForeignKey('booking_agent.booking_agent_id'), nullable = True)
+
+class Appointment(db.Model):
+    __tablename__ = 'appointment'
+
+    id = db.Column(db.Integer, primary_key=True)
+    created = db.Column(db.DateTime, default=datetime.now)
+    modified = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship(User, lazy='joined', join_depth=1, viewonly=True)
+
+    title = db.Column(db.String(255))
+    start = db.Column(db.DateTime, nullable=False)
+    end = db.Column(db.DateTime, nullable=False)
+    allday = db.Column(db.Boolean, default=False)
+    location = db.Column(db.String(255))
+    description = db.Column(db.Text)
+
+    @property
+    def duration(self):
+        # If the datetime type were supported natively on all database
+        # management systems (is not on SQLite), then this could be a
+        # hybrid_property, where filtering clauses could compare
+        # Appointment.duration. Without that support, we leave duration as an
+        # instance property, where appt.duration is calculated for us.
+        delta = self.end - self.start
+        return delta.days * 24 * 60 * 60 + delta.seconds
+
+    def __repr__(self):
+        return u'<{self.__class__.__name__}: {self.id}>'.format(self=self)
