@@ -1,27 +1,23 @@
-from flask import render_template, session, redirect, url_for, current_app
-from .. import db
-from ..models import Patient 
-from ..email import send_email
+from datetime import datetime
+from flask import render_template, session, redirect, url_for
 from . import main
-from .forms import NameForm
+from .. import db
+from ..auth.forms import LoginForm
 
+from flask import render_template, redirect, request, url_for, flash
+from flask_login import login_user, login_required, logout_user, current_user
+from ..models import User
 
-@main.route('/', methods=['GET', 'POST'])
+@main.route('/', methods = ['GET','POST'])
 def index():
-    form = NameForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.name.data).first()
-        if user is None:
-            user = User(username=form.name.data)
-            db.session.add(user)
-            session['known'] = False
-            if current_app.config['FLASKY_ADMIN']:
-                send_email(current_app.config['FLASKY_ADMIN'], 'New User',
-                           'mail/new_user', user=user)
-        else:
-            session['known'] = True
-        session['name'] = form.name.data
-        return redirect(url_for('.index'))
-    return render_template('index.html',
-                           form=form, name=session.get('name'),
-                           known=session.get('known', False))
+    loginform = LoginForm()
+    if loginform.validate_on_submit():
+        user = User.query.filter_by(email=loginform.email.data).first()
+        if user is not None and user.verify_password(loginform.password.data):
+            login_user(user, loginform.remember_me.data)
+            #if login form was presented to the user to prevent
+            #unauthorized access to a protected URL, Flask-Login
+            #Saves the original URL in the next query string
+            return redirect(request.args.get('next') or url_for('main.index'))
+        flash('Invalid email or password.')
+    return render_template('index.html', login_form = loginform)
