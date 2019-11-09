@@ -1,23 +1,14 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}HealthHub{% endblock %}
+{% block title %}HealthHub Home{% endblock %}
 
 {% block page_content %}
+
 <div class="page-header">
-    <h1>
+    <h1 style="color:white; text-align: center;">
       Welcome to HealthHub!
     </h1>
 </div>
-<div class="col-md-4">
-  {% if current_user.is_authenticated %}
-    Empty Text
-  {% else %}
-    Login
-    <br>
-    {{ wtf.quick_form(login_form) }}
-    <br>
-  {% endif %}
-  <br>
-</div>
+
 {% endblock %}

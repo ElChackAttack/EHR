@@ -5,10 +5,8 @@ from ..models import Patient, User
 from .. import db
 import re
 
+
 @sched.route('/schedule', methods = ['GET','POST'])
 def schedule():
-    
+    return render_template("/sched/schedule.html")
 
-    return render_template()
-
-#Here comes the scheduling code...

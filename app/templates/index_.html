@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {% if current_user.is_authenticated %}
+        <meta http-equiv="Refresh" content="0; url={{ url_for('main.home') }}">
+    {% else %}
+        {% import "bootstrap/wtf.html" as wtf %}
+    {% endif %}
+</head>
+<body>
+    <form class="general-form" method="post" role="form">
+        {{ login_form.hidden_tag() }}
+        {{ wtf.form_errors(login_form, hiddens="only") }}
+      
+        {{ wtf.form_field(login_form.email) }}
+        {{ wtf.form_field(login_form.password) }}
+        {{ wtf.form_field(login_form.remember_me) }}
+        {{ login_form.submit }}
+    </form>
+</body>
+</html>

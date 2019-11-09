@@ -1,13 +1,119 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Register</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="image/png" href="{{ url_for('static', filename= 'images/icons/favicon.ico') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/bootstrap/css/bootstrap.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/animate/animate.css') }}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/css-hamburgers/hamburgers.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/animsition/css/animsition.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/select2/select2.min.css') }}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/daterangepicker/daterangepicker.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/util.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/main.css') }}">
+<!--===============================================================================================-->
 {% import "bootstrap/wtf.html" as wtf %}
+{% if current_user.is_authenticated %}
+        <meta http-equiv="Refresh" content="0; url={{ url_for('main.index') }}">
+    {% else %}
+        
+{% endif %}
+</head>
+<body>
+	{% if current_user.is_authenticated %}
+	<h>Welcome</h>
+	{% endif %}
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" method = "post" role = "form">
+					{{ form.hidden_tag() }}
+					<span class="login100-form-title p-b-10">
+						<i class="zmdi zmdi-font"> <img src="{{ url_for('static', filename= 'images/logo_3.png') }}"> </i>
+					</span>
+					<style>
+							label{
+							  display: None;
+							}
+                    </style>
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+                        {{ wtf.form_field(form.hospital, placeholder="Hospital", class = "input100") }}
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						{{ wtf.form_field(form.email, placeholder="Email", class = "input100") }}
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						{{ wtf.form_field(form.first_name, placeholder="First Name", class = "input100") }}
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						{{ wtf.form_field(form.last_name, placeholder="Email", class = "input100") }}
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						{{ wtf.form_field(form.date_of_birth, placeholder="Date of Birth", class = "input100") }}
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						{{ wtf.form_field(form.password, placeholder="Password", class = "input100") }}
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						{{ wtf.form_field(form.password2, placeholder="Confirm Password", class = "input100") }}
+                    </div>
 
-{% block title %}HealthHub - Register{% endblock %}
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							
+							<div class="login100-form-bgbtn"></div>
+							{{ form.submit(class = "login100-form-btn") }}
+						</div>
+					</div>
 
-{% block page_content %}
-<div class="page-header">
-    <h1>Register</h1>
-</div>
-<div class="col-md-4">
-    {{ wtf.quick_form(form) }}
-</div>
-{% endblock %}
+					<div class="text-center p-t-20">
+						<span class="txt1">
+							Have an account?
+						</span>
+
+						<a class="txt2" href="{{ url_for('auth.login') }}">
+							Log in
+						</a>
+						<br></br>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename='vendor/jquery/jquery-3.2.1.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename='vendor/animsition/js/animsition.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename='vendor/bootstrap/js/popper.js')}}"></script>
+	<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename='vendor/select2/select2.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename='vendor/daterangepicker/moment.min.js')}}"></script>
+	<script src="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename='vendor/countdowntime/countdowntime.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename='js/main.js')}}"></script>
+
+</body>
+</html>

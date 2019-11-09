@@ -1,7 +1,7 @@
 from flask import render_template, redirect, request, url_for, flash
 from . import auth
 from flask_login import login_user, login_required, logout_user, current_user
-from ..models import Patient, User
+from ..models import Patient, User, Hospital
 from .forms import LoginForm, PatientRegistrationForm
 from ..email import send_email
 from .. import db
@@ -9,6 +9,7 @@ import re
 
 
 @auth.route('/login', methods = ['GET','POST'])
+
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -22,7 +23,7 @@ def login():
         flash('Invalid email or password.')
         #if the username or password is incorrect, form is
         #rendered again
-    return render_template('auth/login.html', form = form)
+    return render_template('auth/login.html', login_form = form)
 
 @auth.route('/logout')
 @login_required
@@ -41,12 +42,17 @@ register.
 
 @auth.route('/register', methods = ['GET', 'POST'])
 def register_patient():
+    hospitals = Hospital.query.all()
     form = PatientRegistrationForm()
+    form.hospital.choices = [(h.unique_id, h.name) for h in hospitals]
+    print(form.hospital.choices)
     if form.validate_on_submit():
+        print(form.hospital.data)
         user = User(email = form.email.data,
                     password = form.password.data,
                     first_name = form.first_name.data,
-                    last_name = form.last_name.data)
+                    last_name = form.last_name.data,
+                    hospital_id = form.hospital.data)
         db.session.add(user)
         print(user)
         db.session.commit()

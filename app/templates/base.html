@@ -2,43 +2,85 @@
 
 {% block title %}HealthHub{% endblock %}
 
+
 {% block head %}
 {{ super() }}
+{% if not current_user.is_authenticated %}
+<meta http-equiv="Refresh" content="0; url={{ url_for('auth.login') }}">
+{% else %}
+{% endif %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/main.css') }}">
+<link 
+  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
+  rel="stylesheet"  type='text/css'>
 
 {% endblock %}
+{% block body %}
+<div class="container-general">
+
 
 {% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">HealthHub</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                <li><a href="{{ url_for('sched.schedule') }}">Schedule</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if current_user.is_authenticated %}
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-                    </ul>
-                </li>
-                {% else %}
-                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-                {% endif %}
-            </ul>
-        </div>
+<div class="main-menu">
+        <ul>
+            <li>
+                <a href="{{ url_for('main.index') }}">
+                    <i class="fa fa-home fa-2x"></i>
+                    <span class="nav-text">
+                        Home
+                    </span>
+                </a>
+              
+            </li>
+            <li class="has-subnav">
+                <a href="{{ url_for('sched.schedule') }}">
+                    <i class="fa fa-calendar fa-2x"></i>
+                    <span class="nav-text">
+                        Schedule Appointment
+                    </span>
+                </a>
+                
+            </li>
+            <li class="has-subnav">
+                <a href="{{ url_for('roomres.reserve') }}">
+                   <i class="fa fa-hospital-o fa-2x"></i>
+                    <span class="nav-text">
+                        Reserve Room
+                    </span>
+                </a>
+                
+            </li>
+            <li class="has-subnav">
+                <a href="#">
+                   <i class="fa fa-folder-open fa-2x"></i>
+                    <span class="nav-text">
+                        Files
+                    </span>
+                </a>
+               
+            </li>
+
+            <li class="has-subnav">
+                    <a href="#">
+                       <i class="fa fa-mail-forward fa-2x"></i>
+                        <span class="nav-text">
+                            Forum
+                        </span>
+                    </a>
+                   
+            </li>
+            
+        </ul>
+        <ul class="logout">
+            <li>
+               <a href="{{ url_for('auth.logout') }}">
+                     <i class="fa fa-power-off fa-2x"></i>
+                    <span class="nav-text">
+                        Logout
+                    </span>
+                </a>
+            </li>  
+        </ul>
     </div>
-</div>
 {% endblock %}
 
 {% block content %}
@@ -57,4 +99,6 @@
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
+{% endblock %}
+</div>
 {% endblock %}
