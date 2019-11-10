@@ -165,9 +165,10 @@ class Appointment(db.Model):
     appointment_id = db.Column(db.Integer, primary_key = True)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.user_id'), nullable = False)
     hospital_id = db.Column(db.Integer, db.ForeignKey('facility.hospital_id'), nullable = False)
-    facility_num = db.Column(db.String(64), db.ForeignKey('facility.facility_num'), nullable = False)
-    event_id = db.Column(db.Integer, db.ForeignKey('physician_schedule.event_id'), nullable = False)
+    facility_num = db.Column(db.String(64), db.ForeignKey('facility.facility_num'), nullable = True)
+    event_id = db.Column(db.Integer, db.ForeignKey('physician_schedule.event_id'), nullable = True)
     notes = db.Column(db.Text, nullable = True)
+    purpose = db.Column(db.String(64),nullable = True)
     hospital_id_rel = db.relationship("Facility", foreign_keys=[hospital_id])
     facility_num_rel = db.relationship("Facility", foreign_keys=[facility_num])
 

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset='utf-8'>
+  <title>Calendar</title>
+  <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+	<style type = "text/css">
+
+    #container{
+      position: fixed;
+      left: 0px;
+      right: 0px;
+      top: 0px;
+      bottom: 0px;
+      height: 100%;
+      width: 100%;
+    }
+
+    .calendar, .menu {
+      display: inline-block;
+      *display: inline;
+      font-size: 12px;
+      vertical-align: top;
+    }
+
+    .menu {
+      width: 100%
+      height: 15%
+    }
+
+    .calendar {
+      width: 100%
+      height: 85%
+    }
+  </style>
+</head>
+
+<body>
+
+  <script type = "text/javascript">
+    var today = new Date();
+    var currentMonth = today.getMonth();
+    var currentYear = today.getFullYear();
+    // var selectYear = document.getElementById("year");
+    // var selectMonth = document.getElementById("month");
+
+    function daysInMonth (month, year) {
+                return new Date(year, month, 0).getDate();
+            }
+
+    function first_day (month, year) {
+                return new Date(year, month, 1)
+              }
+
+    var num_days = daysInMonth(currentMonth, currentYear)
+
+    var first_day = first_day(currentMonth, currentYear).getDay();
+
+    var padding = 100;
+
+
+    function getDayPosition(day){
+        x_pos = day % 7
+        y_pos = Math.floor(day / 7)
+        return [x_pos, y_pos]
+    }
+
+    //day position will be a function of width
+    function main() {
+      d3.select("#container").remove();
+
+      d3.select('body')
+          .append('div')
+          .attr('id', 'container')
+
+      var chartBody = document.getElementById("container");
+
+      var svg = d3.select('#container')
+                  .append('div')
+                  .classed('calendar', true)
+                  .append('svg')
+                  .attr('width', chartBody.clientWidth)
+                  .attr('height', chartBody.clientHeight);
+
+      var calendar_days = svg.append('g')
+                              .classed('calendar_days', true);
+
+      var width = document.getElementsByClassName('calendar')[0].clientWidth;
+      var height = document.getElementsByClassName('calendar')[0].clientHeight;
+
+      var i;
+      for (i = 1; i < num_days; i++){
+        var position = getDayPosition(i + (first_day-1))
+        calendar_days.append('circle')
+                      .attr("cx", function(){
+                                    return padding + position[0] * Math.floor(width/7)
+                                  })
+                      .attr("cy", function(){
+                                    return padding + position[1] * Math.floor(height/5)
+                                  })
+                      .attr("r", 40)
+                      .attr("id", i)
+                      .style("stroke", "red")
+                      .style("fill", "none")
+                    }
+                  }
+      main()
+      window.addEventListener("resize", main);
+
+  </script>
+
+</body>
+
+</html>
