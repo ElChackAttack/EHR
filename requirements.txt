@@ -28,7 +28,7 @@ itsdangerous==1.1.0
 jedi==0.15.1
 Jinja2==2.11.3
 jupyter-client==5.3.4
-jupyter-core==4.6.1
+jupyter-core==4.11.2
 Mako==1.2.2
 MarkupSafe==1.1.1
 mysqlclient==1.4.4
